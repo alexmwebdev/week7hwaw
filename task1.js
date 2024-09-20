@@ -8,27 +8,6 @@ class Room {
     }
 }
 
-function findRoom(name, rooms) {
-    for(let i = 0; i < rooms.length; i++) {
-        if(rooms[i].name == name) {
-            return rooms[i];
-        }
-    }
-    return null;
-}
-
-function assignOnDirection(from, to, direction) {
-    if(direction == "NORTH") {
-        from.north = to;
-    } else if(direction == "WEST") {
-        from.west = to;
-    } else if(direction == "SOUTH") {
-        from.south = to;
-    } else {
-        from.east = to;
-    }
-}
-
 const fs = require('fs');
 let firstline = '';
 let count = 0;
@@ -50,6 +29,27 @@ for (let i = 0; i < roomnames.length; i++) {
     rooms.push(new Room(roomnames[i]));
 }
 
+function findRoom(name, rooms) {
+    for(let i = 0; i < rooms.length; i++) {
+        if(rooms[i].name == name) {
+            return rooms[i];
+        }
+    }
+    return null;
+}
+
+function assignOnDirection(from, to, direction) {
+    if(direction == "NORTH") {
+        from.north = to;
+    } else if(direction == "WEST") {
+        from.west = to;
+    } else if(direction == "SOUTH") {
+        from.south = to;
+    } else {
+        from.east = to;
+    }
+} 
+
 for (let i = 0; i < linklines.length; i++) {
     let linkSpl = linklines[i].split('>');
     let linkFrom = linkSpl[0].trim();
@@ -59,8 +59,9 @@ for (let i = 0; i < linklines.length; i++) {
     let toRoom = findRoom(linkTo, rooms);
     assignOnDirection(fromRoom, toRoom, linkDir);
 }
-console.log(linklines);
 
+
+console.log(linklines);
 
 const readlinePromises = require('node:readline/promises');
 const { stdin, stdout } = require('node:process');
