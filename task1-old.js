@@ -1,67 +1,3 @@
-class Room {
-    constructor(name) {
-        this.name = name;
-        this.north = null;
-        this.east = null;
-        this.south = null;
-        this.west = null;
-    }
-}
-
-function findRoom(name, rooms) {
-    for(let i = 0; i < rooms.length; i++) {
-        if(rooms[i].name == name) {
-            return rooms[i];
-        }
-    }
-    return null;
-}
-
-function assignOnDirection(from, to, direction) {
-    if(direction == "NORTH") {
-        from.north = to;
-    } else if(direction == "WEST") {
-        from.west = to;
-    } else if(direction == "SOUTH") {
-        from.south = to;
-    } else {
-        from.east = to;
-    }
-}
-
-const fs = require('fs');
-let firstline = '';
-let count = 0;
-let linklines = [];
-const allFileContents = fs.readFileSync('hotel.dg', 'utf-8');
-allFileContents.split(/\r?\n/).forEach(line =>  {
-    if (count == 0) {
-        firstline = line;
-    } else {
-        linklines.push(line);
-    }
-    count = count + 1;
-});
-
-let rooms = []
-let roomnames = firstline.split(' ');
-
-for (let i = 0; i < roomnames.length; i++) {
-    rooms.push(new Room(roomnames[i]));
-}
-
-for (let i = 0; i < linklines.length; i++) {
-    let linkSpl = linklines[i].split('>');
-    let linkFrom = linkSpl[0].trim();
-    let linkDir = linkSpl[1].trim();
-    let linkTo = linkSpl[2].trim();
-    let fromRoom = findRoom(linkFrom, rooms);
-    let toRoom = findRoom(linkTo, rooms);
-    assignOnDirection(fromRoom, toRoom, linkDir);
-}
-console.log(linklines);
-
-
 const readlinePromises = require('node:readline/promises');
 const { stdin, stdout } = require('node:process');
 
@@ -147,14 +83,12 @@ async function start() {
     let previousmove = "";
     let currentroom = "START";
     let on = 1;
-    let currentSpot = rooms[0];
 while (on = 1) {
     if (command == "QUIT") {
         on = 0;
         quit();
     } else if (command == "NORTH") {
-        if (currentSpot.north !== null) {
-            currentSpot = currentSpot.north;
+        if (previousmove == "" || previousmove == "SOUTH") {
             currentroom = "START";
             north(currentroom, command);
             previousmove = command;
@@ -173,8 +107,7 @@ while (on = 1) {
             console.log("No Path This Way");
         }
     } else if (command == "SOUTH") {
-        if (currentSpot.south !== null) {
-            currentSpot = currentSpot.south;
+        if (previousmove == "NORTH") {
             currentroom = "FOYER";
             south(currentroom, command);
             previousmove = command;
@@ -193,8 +126,8 @@ while (on = 1) {
             console.log("No Path This Way");
         }
     } else if (command == "WEST") {
-        if (currentSpot.west !== null) {
-            currentSpot = currentSpot.west;
+        if (previousmove == "SOUTH") {
+            currentroom = "START";
             west(currentroom, command);
             previousmove = command;
             currentroom = "ELEVATOR";
@@ -213,25 +146,8 @@ while (on = 1) {
             console.log("No Path This Way");
         }
     } else if (command == "EAST") {
-        if (currentSpot.east !== null) {
-            currentSpot = currentSpot.east;
-            east(currentroom, command);
-            previousmove = command;
-            currentroom = "ELEVATOR";
-        } else {
-            console.log(currentroom);
-            console.log("\n");
-            console.log("---------");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("---------");
-            console.log("\n");
-            console.log(command);
-            console.log("No Path This Way");
-        }
+        east(currentroom, command);
+        console.log("No Path This Way");
     } else {
         console.log("What??");
     } 
@@ -240,23 +156,3 @@ while (on = 1) {
 }
 
   start();
-
-
-/*
-console.log(rooms);
-console.log(firstline);
-console.log(linklines);
-let currentSpot = rooms[0];
-console.log(currentSpot);
-currentSpot = currentSpot.north;
-console.log("Move North");
-console.log(currentSpot);
-currentSpot = currentSpot.south;
-console.log("Move SOUTH");
-console.log(currentSpot);
-currentSpot = currentSpot.west;
-console.log("Move WEST");
-console.log(currentSpot);
-currentSpot = currentSpot.east;
-console.log("Move EAST");
-console.log(currentSpot); */
