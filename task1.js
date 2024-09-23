@@ -74,6 +74,20 @@ const rl = readlinePromises.createInterface({
 function north(currentroom, command) {
     console.log(currentroom);
     console.log("\n");
+    console.log("---------");
+    console.log("|       |");
+    console.log("|       |");
+    console.log("|       |");
+    console.log("|       |");
+    console.log("|       |");
+    console.log("----S----");
+    console.log("\n");
+    console.log(command);
+}
+
+function south(currentroom, command) {
+    console.log(currentroom);
+    console.log("\n");
     console.log("----N----");
     console.log("|       |");
     console.log("|       |");
@@ -84,27 +98,13 @@ function north(currentroom, command) {
     console.log("\n");
     console.log(command);
 }
-
-function south(currentroom, command) {
+function west(currentroom, command) {
     console.log(currentroom);
     console.log("\n");
     console.log("---------");
     console.log("|       |");
     console.log("|       |");
     console.log("|       |");
-    console.log("|       |");
-    console.log("|       |");
-    console.log("----S----");
-    console.log("\n");
-    console.log(command);
-}
-function west(currentroom, command) {
-    console.log(currentroom);
-    console.log("\n");
-    console.log("----S----");
-    console.log("|       |");
-    console.log("|       |");
-    console.log("W       |");
     console.log("|       |");
     console.log("|       |");
     console.log("---------");
@@ -139,7 +139,7 @@ async function start() {
     console.log("----N----");
     console.log("|       |");
     console.log("|       |");
-    console.log("|       |");
+    console.log("W       |");
     console.log("|       |");
     console.log("|       |");
     console.log("---------");
@@ -156,81 +156,33 @@ while (on = 1) {
     } else if (command == "NORTH") {
         if (currentSpot.north !== null) {
             currentSpot = currentSpot.north;
-            currentroom = "START";
-            north(currentroom, command);
+            north(currentSpot.name, command);
             previousmove = command;
         } else {
-            console.log(currentroom);
-            console.log("\n");
-            console.log("---------");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("---------");
-            console.log("\n");
-            console.log(command);
             console.log("No Path This Way");
         }
     } else if (command == "SOUTH") {
         if (currentSpot.south !== null) {
             currentSpot = currentSpot.south;
-            currentroom = "FOYER";
-            south(currentroom, command);
+            south(currentSpot.name, command);
             previousmove = command;
         } else {
-            console.log(currentroom);
-            console.log("\n");
-            console.log("---------");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("---------");
-            console.log("\n");
-            console.log(command);
             console.log("No Path This Way");
         }
     } else if (command == "WEST") {
         if (currentSpot.west !== null) {
             currentSpot = currentSpot.west;
-            west(currentroom, command);
+            west(currentSpot.name, command);
             previousmove = command;
-            currentroom = "ELEVATOR";
         } else {
-            console.log(currentroom);
-            console.log("\n");
-            console.log("---------");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("---------");
-            console.log("\n");
-            console.log(command);
             console.log("No Path This Way");
         }
     } else if (command == "EAST") {
         if (currentSpot.east !== null) {
             currentSpot = currentSpot.east;
-            east(currentroom, command);
+            east(currentSpot.name, command);
             previousmove = command;
-            currentroom = "ELEVATOR";
         } else {
-            console.log(currentroom);
-            console.log("\n");
-            console.log("---------");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("|       |");
-            console.log("---------");
-            console.log("\n");
-            console.log(command);
             console.log("No Path This Way");
         }
     } else {
