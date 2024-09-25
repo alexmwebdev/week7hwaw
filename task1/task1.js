@@ -7,7 +7,7 @@ class Room {
         this.west = null;
     }
 }
-
+// this loads the valid moves into an array
 const fs = require('fs');
 let firstline = '';
 let count = 0;
@@ -22,11 +22,11 @@ allFileContents.split(/\r?\n/).forEach(line =>  {
     count = count + 1;
 });
 
-let rooms = []
-let roomnames = firstline.split(' ');
+let rooms = [] // This array lists all the rooms in this game
+let roomnames = firstline.split(' '); // get the room names that are separated by a space
 
 for (let i = 0; i < roomnames.length; i++) {
-    rooms.push(new Room(roomnames[i]));
+    rooms.push(new Room(roomnames[i])); // push the names of the rooms into the rooms array
 }
 
 function findRoom(name, rooms) {
@@ -70,7 +70,7 @@ const rl = readlinePromises.createInterface({
     input: stdin,
     output: stdout
   });
-
+// if the user types in NORTH
 function north(currentroom, command) {
     console.log(currentroom);
     console.log("\n");
@@ -84,7 +84,7 @@ function north(currentroom, command) {
     console.log("\n");
     console.log(command);
 }
-
+// if the user types in SOUTH
 function south(currentroom, command) {
     console.log(currentroom);
     console.log("\n");
@@ -98,6 +98,7 @@ function south(currentroom, command) {
     console.log("\n");
     console.log(command);
 }
+// if the user types in WEST
 function west(currentroom, command) {
     console.log(currentroom);
     console.log("\n");
@@ -111,7 +112,7 @@ function west(currentroom, command) {
     console.log("\n");
     console.log(command);
 }
-
+// if the user types in EAST
 function east(currentroom, command) {
     console.log(currentroom);
     console.log("\n");
@@ -125,12 +126,12 @@ function east(currentroom, command) {
     console.log("\n");
     console.log(command);
 }
-
+// if the user types in QUIT
 function quit () {
     previousmove = "";
     process.exit(1);
 }
-
+// This function starts the dungeon game
 async function start() {
     console.log("NORTH");
     console.log("\n");
@@ -150,10 +151,10 @@ async function start() {
     let on = 1;
     let currentSpot = rooms[0];
 while (on = 1) {
-    if (command == "QUIT") {
+    if (command == "QUIT") { // if the user types in QUIT
         on = 0;
         quit();
-    } else if (command == "NORTH") {
+    } else if (command == "NORTH") { // if the user types in NORTH
         if (currentSpot.north !== null) {
             currentSpot = currentSpot.north;
             north(currentSpot.name, command);
@@ -161,7 +162,7 @@ while (on = 1) {
         } else {
             console.log("No Path This Way");
         }
-    } else if (command == "SOUTH") {
+    } else if (command == "SOUTH") { // if the user types in SOUTH
         if (currentSpot.south !== null) {
             currentSpot = currentSpot.south;
             south(currentSpot.name, command);
@@ -169,7 +170,7 @@ while (on = 1) {
         } else {
             console.log("No Path This Way");
         }
-    } else if (command == "WEST") {
+    } else if (command == "WEST") { // if the user types in WEST
         if (currentSpot.west !== null) {
             currentSpot = currentSpot.west;
             west(currentSpot.name, command);
@@ -177,7 +178,7 @@ while (on = 1) {
         } else {
             console.log("No Path This Way");
         }
-    } else if (command == "EAST") {
+    } else if (command == "EAST") { // if the user types in EAST
         if (currentSpot.east !== null) {
             currentSpot = currentSpot.east;
             east(currentSpot.name, command);
@@ -186,9 +187,9 @@ while (on = 1) {
             console.log("No Path This Way");
         }
     } else {
-        console.log("What??");
+        console.log("What??"); // This message is shown if the user enters an invalid move
     } 
-    command = await rl.question('What is your move? ');
+    command = await rl.question('What is your move? '); // asks the user to enter their move
 }
 }
 
